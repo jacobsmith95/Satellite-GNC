@@ -35,7 +35,7 @@ class Satellite():
         """runs the satellite object; returns self.orbit, self.x_pos, and self.y_pos"""
         self.add_position(self.pos)
         for i in range(timing):
-            x = self.pos[0] + 0.25
+            x = self.pos[0] + 0.1
             y = self.orbit(x)
             new_position = (x, y)
             self.move(new_position)
