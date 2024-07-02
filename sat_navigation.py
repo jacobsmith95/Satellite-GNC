@@ -2,27 +2,23 @@ import numpy as np
 
 
 class Navigation():
-    """An object which represents a navigation module for the """
+    """
+    A class which represents a navigation module for a satellite
+    """
 
     def __init__(self):
-        """
-
-        """
+        """initializes a Navigation object"""
         self.state_vector = None
 
-    def create_state_vector(self, position_1, position_2, position_3, velocity):
-        """
-        creates a state vector from position and velocity data
-        """
-        position_vector = np.array([position_1, position_2, position_3])
-        velocity_vector = np.array([velocity, velocity, velocity])
+    def create_state_vector(self, position_array, velocity_array):
+        """creates a state vector from position and velocity data"""
+        position_vector = np.array(position_array)
+        velocity_vector = np.array(velocity_array)
         
-        self.state_vector = np.array([position_vector, velocity_vector])
+        self.state_vector = np.concatenate((position_vector, velocity_vector), axis=0)
 
     def get_state_vector(self):
-        """
-        returns the state vector
-        """
+        """returns the state vector"""
         return self.state_vector
 
 
