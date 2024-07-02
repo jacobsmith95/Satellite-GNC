@@ -1,4 +1,5 @@
 from numpy.polynomial import Polynomial
+from sat_guidance import Guidance
 from sat_navigation import Navigation
 
 
@@ -16,6 +17,7 @@ class Satellite():
     def __init__(self, position_1, position_2, position_3, velocity):
         """initializes a satellite object"""
         
+        self.guidance   = Guidance()
         self.navigation = Navigation()
 
         #self.curr_pos = position_3
@@ -23,7 +25,7 @@ class Satellite():
         #self.thrd_pos = position_1
         self.curr_vel = velocity
         self.curr_acc = None
-        self.orbit    = None
+        self.path     = None
         self.track    = {}
         self.x_list   = []
         self.y_list   = []
@@ -34,7 +36,7 @@ class Satellite():
         #self.scnd_pos = self.curr_pos
         #self.curr_pos = new_position
 
-    def calc_orbit(self):
+    def calculate_path(self):
         """"""
         self.orbit = Polynomial.fit(self.x_list, self.y_list, 1)
 
@@ -46,16 +48,16 @@ class Satellite():
         self.x_list.append(position[0])
         self.y_list.append(position[1])
 
-    def run(self, timing):
+    def run(self, position_array, velocity_array, timing):
         """runs the satellite object; returns self.orbit, self.x_pos, and self.y_pos"""
-        self.add_position(self.)
         self.add_position(self.curr_pos)
-        self.calc_orbit()
+        self.add_position(self.curr_pos)
+        self.calculate_path()
         for i in range(timing):
             x = self.curr_pos[0] + 0.1
-            y = self.orbit(x)
+            y = self.path(x)
             new_position = (x, y)
             self.move(new_position)
             self.add_position(self.curr_pos)
 
-        return (self.orbit, self.x_list, self.y_list)
+        return (self.path, self.x_list, self.y_list)
