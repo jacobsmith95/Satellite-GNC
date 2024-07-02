@@ -14,27 +14,22 @@ class Satellite():
     in order to simulate the satellite gathering position data from sensors
     """
 
-    def __init__(self, position_1, position_2, position_3, velocity):
-        """initializes a satellite object"""
-        
+    def __init__(self):
+        """initializes a Satellite object"""
         self.guidance   = Guidance()
         self.navigation = Navigation()
 
-        #self.curr_pos = position_3
-        #self.scnd_pos = position_2
-        #self.thrd_pos = position_1
-        self.curr_vel = velocity
+        self.curr_pos = None
+        self.curr_vel = None
         self.curr_acc = None
         self.path     = None
         self.track    = {}
         self.x_list   = []
         self.y_list   = []
 
-    def move(self, new_position):
-        """moves the satellite object to the new position"""
-        #self.thrd_pos = self.scnd_pos
-        #self.scnd_pos = self.curr_pos
-        #self.curr_pos = new_position
+    def update_position(self, new_position):
+        """updates the satellite's current position"""
+        self.curr_pos = new_position
 
     def calculate_path(self):
         """"""
@@ -50,14 +45,17 @@ class Satellite():
 
     def run(self, position_array, velocity_array, timing):
         """runs the satellite object; returns self.orbit, self.x_pos, and self.y_pos"""
-        self.add_position(self.curr_pos)
-        self.add_position(self.curr_pos)
-        self.calculate_path()
-        for i in range(timing):
-            x = self.curr_pos[0] + 0.1
-            y = self.path(x)
+
+        self.navigation.create_state_vector(position_array, velocity_array)
+        self.guidance.determine_path(self.navigation.get_state_vector())
+        path = self.guidance.get_path()
+        self.update_position((3, position_array[0][2]))
+
+        for time in range(timing):
+            x = self.curr_pos[0] + 1
+            y = path(x)
             new_position = (x, y)
-            self.move(new_position)
+            self.update_position(new_position)
             self.add_position(self.curr_pos)
 
-        return (self.path, self.x_list, self.y_list)
+        return (path, self.x_list, self.y_list)
