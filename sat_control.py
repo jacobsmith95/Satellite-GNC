@@ -20,4 +20,4 @@ class Control():
 
     def get_acceleration(self):
         """returns acceleration"""
-        return self.accelerationS
+        return self.acceleration
