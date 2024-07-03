@@ -38,24 +38,25 @@ class Satellite():
     def calc_next_move(self):
         """calculates the next move for the satellite"""
 
-    def add_position(self, position):
-        """adds x and y coordinates to the self.x_pos and self.y_pos attributes"""
-        self.x_list.append(position[0])
-        self.y_list.append(position[1])
+    def add_position(self):
+        """adds current x and y coordinates to the self.x_pos and self.y_pos attributes"""
+        self.x_list.append(self.curr_pos[0])
+        self.y_list.append(self.curr_pos[1])
 
     def run(self, position_array, velocity_array, timing):
         """runs the satellite object; returns self.orbit, self.x_pos, and self.y_pos"""
 
         self.navigation.create_state_vector(position_array, velocity_array)
-        self.guidance.determine_path(self.navigation.get_state_vector())
+        self.guidance.add_state_vector(self.navigation.get_state_vector())
+        self.guidance.determine_path()
         path = self.guidance.get_path()
         self.update_position((3, position_array[0][2]))
 
         for time in range(timing):
-            x = self.curr_pos[0] + 1
-            y = path(x)
-            new_position = (x, y)
-            self.update_position(new_position)
-            self.add_position(self.curr_pos)
+            self.guidance.add_state_vector(self.navigation.get_state_vector())
+            self.guidance.determine_next_pos(self.curr_pos[0] + 1, time+4)
+            next_pos = self.guidance.get_next_pos()
+            self.update_position(next_pos)
+            self.add_position()
 
         return (path, self.x_list, self.y_list)
