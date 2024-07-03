@@ -54,7 +54,7 @@ class Satellite():
 
         for time in range(timing):
             self.guidance.add_state_vector(self.navigation.get_state_vector())
-            self.guidance.determine_next_pos(self.curr_pos[0] + 1, time+4)
+            self.guidance.determine_next_pos(self.curr_pos[0] + 1, 0, time+4)
             next_pos = self.guidance.get_next_pos()
             self.update_position(next_pos)
             self.add_position()

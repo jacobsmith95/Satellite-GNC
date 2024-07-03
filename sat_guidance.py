@@ -19,13 +19,13 @@ class Guidance():
         y_array = self.state_vector[0]
         self.path = Polynomial.fit(x_array, y_array, 1)
 
-    def determine_next_pos(self, x_position, time):
+    def determine_next_pos(self, x_position, acceleration, time):
         """calculates the next desired position for the satellite"""
         velocity = self.state_vector[1][2]
-        displacement = velocity * time
+        displacement = (velocity * time) + (0.5 * acceleration * (time^2))
         self.next_pos = (x_position, displacement)
 
-    def calculate_avoidance_position(self, x_position, time):
+    def calculate_avoidance_pos(self, x_position, time):
         """calculates the position needed to avoid collision"""
         velocity = self.state_vector[1][2]
         displacement = (velocity * (time+3))+3
