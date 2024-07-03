@@ -15,6 +15,7 @@ fig, ax = plt.subplots()
 
 ax.plot(x1, y1)
 ax.scatter(x2, y2)
+ax.plot(x2, y2)
 
 fig.suptitle('Satellite Path')
 
