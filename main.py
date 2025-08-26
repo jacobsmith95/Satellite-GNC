@@ -23,17 +23,18 @@ fig.suptitle('Satellite Path')
 
 plt.show()
 """
-body_1 = Body(10, [0,0], [0,0])
-body_2 = Body(1, [1,0], [0,0])
-orbit = Orbit(body_1, body_2, 1)
-theta = np.arange(0, np.pi, 0.01)
+
+body_1 = Body(30, [0,0], [0,0])
+body_2 = Body(1, [10,5], [0,0])
+orbit = Orbit(body_1, body_2, 10,  3.98)
+theta = np.arange(0, np.pi*2, 0.01)
 r = orbit.run_orbit(theta)
 
 fig, ax = plt.subplots(figsize=(5, 8), subplot_kw={'projection': 'polar'},
                         layout='constrained')
 ax = ax
 ax.plot(theta, r)
-ax.set_rmax(2)
+ax.set_rmax(15)
 ax.set_rticks([1, 2])  # Fewer radial ticks
 ax.set_rlabel_position(-22.5)  # Move radial labels away from plotted line
 ax.grid(True)

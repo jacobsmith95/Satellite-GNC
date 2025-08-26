@@ -9,18 +9,17 @@ class Orbit_CM():
     This class assumes that body_2, the orbiting body, is of infinitesimal mass compared to the orbited body, body_1
     """
 
-    def __init__(self, body_1, body_2, separation_distance):
+    def __init__(self, body_1: Body, body_2: Body, separation_distance, angular_momentum, eccentricity, gravitational_parameter):
         """initializes an orbit object"""
-        self.body_1 = Body(body_1)
-        self.body_2 = Body(body_2)
+        self.body_1 = body_1
+        self.body_2 = body_2
         self.orbit = None
         self.points = []
 
-        self.eccentricity = 1
         self.sep_distance = separation_distance
-        self.angular_mom  = 1
-        self.energy       = 1
-        self.mu           = 1
+        self.angular_mom  = angular_momentum
+        self.eccentricity = eccentricity
+        self.mu           = gravitational_parameter
 
     def calc_eccentricity(self):
         """calculates the eccentricity of the orbit"""
@@ -31,7 +30,7 @@ class Orbit_CM():
     def run_orbit(self, theta):
         """runs the orbit equation, returning a value r for a value of theta"""
 
-        term_1 = (self.angular_mom**2)/((self.body_1.get_mass()**2)*self.mu)
+        term_1 = (self.angular_mom**2)/((self.body_2.get_mass()**2)*self.mu)
         term_2 = 1/1+self.eccentricity*np.cos(theta)
         return term_1*term_2
     
